@@ -1,0 +1,49 @@
+name: Update Images
+
+on:
+  workflow_dispatch:
+
+env:
+  ENV_DOCKER_REPO_NAME: ghcr.io/daymarket/qa-docker
+
+jobs:
+  build-publish-docker-images:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GH_MACHINE_USER }}
+        password: ${{ secrets.GH_MACHINE_RW_TOKEN }}
+    - name: script
+      run: |
+        echo "Job started at $(date '+%d/%m/%Y %H:%M:%S')";
+        sudo apt update
+        sudo apt install -y curl jq gettext
+        ENV_DOCKER_PUSH_EXIST=false
+        for imageFolder in ./images/* ; 
+          do
+          if [ -d "$imageFolder" ]; then
+            if [ ! -f "$imageFolder/.skip" ]; then
+              ENV_DOCKER_IMAGE_NAME=$(basename $imageFolder); 
+              UPDATE_IMAGE=false;
+              source $imageFolder/.versions;
+              source $imageFolder/.check;
+              source $imageFolder/.build;
+            else
+              echo "Skip image folder $imageFolder (found .skip file in folder)";
+            fi;
+          fi;
+        done
+        if [ "$ENV_DOCKER_PUSH_EXIST" = true ]; then 
+          echo "Pushing changes to repository...";
+          git config --global user.name 'Machine User'
+          git config --global user.email '${{ secrets.GH_MACHINE_USER_EMAIL }}'
+          git remote set-url origin https://x-access-token:${{ secrets.GH_MACHINE_RW_TOKEN }}@github.com/${{ github.repository }}
+          git commit -m"Commit new .versions file [skip ci]";
+          git push origin master;
+          echo "Done.";
+        fi
+        echo "Job finished at $(date '+%d/%m/%Y %H:%M:%S'). Bye...";
