@@ -5,8 +5,7 @@ if [ "$UPDATE_IMAGE" = true ]; then
     BUILD_NUMBER=${GITHUB_SHA::8}
     ENV_DOCKER_REPO_TAG="$ENV_DOCKER_IMAGE_NAME.$BUILD_NUMBER";
     ENV_DOCKER_REPO_TAG_LATEST="$ENV_DOCKER_IMAGE_NAME.latest";
-
-    echo "Setting image tag: ${ENV_DOCKER_REPO_TAG_LATEST}";
+    echo "Setting image tag: ${ENV_DOCKER_REPO_TAG}";
     docker build . -f $imageFolder/Dockerfile -t ${ENV_DOCKER_REPO_NAME}:${ENV_DOCKER_REPO_TAG_LATEST} -t ${ENV_DOCKER_REPO_NAME}:${ENV_DOCKER_REPO_TAG};
     docker push ${ENV_DOCKER_REPO_NAME}:${ENV_DOCKER_REPO_TAG_LATEST};
     docker push ${ENV_DOCKER_REPO_NAME}:${ENV_DOCKER_REPO_TAG};
