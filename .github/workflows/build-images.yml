@@ -2,6 +2,8 @@ name: Update Images
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * 1,2,3,4,5'
 
 env:
   ENV_DOCKER_REPO_NAME: ghcr.io/daymarket/qa-docker
