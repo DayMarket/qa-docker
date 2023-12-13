@@ -2,7 +2,7 @@
 if [ "$UPDATE_IMAGE" = true ]; then 
 
     curl -L https://go.dev/dl/go1.21.3.linux-amd64.tar.gz --output go1.21.3.linux-amd64.tar.gz;
-    rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.3.linux-amd64.tar.gz;
+    rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.21.3.linux-amd64.tar.gz;
     PATH=$PATH:/usr/local/go/bin;
     PATH=$PATH:~/go/bin;
     go version;
