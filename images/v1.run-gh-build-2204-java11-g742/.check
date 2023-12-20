@@ -12,7 +12,6 @@ fi
 
 if [ "$UPDATE_IMAGE" = true ]; then 
     echo "RUNNER_VERSION=$LATEST_RUNNER_VERSION" > $imageFolder/.newVersions;
-    echo "ALLURECTL_VERSION=$LATEST_ALLURECTL_VERSION" >> $imageFolder/.newVersions;
 
     echo "Creating Dockerfile for image: $ENV_DOCKER_IMAGE_NAME"
     envsubst '$LATEST_RUNNER_VERSION, $LATEST_ALLURECTL_VERSION, $LATEST_CHROME_VERSION' < $imageFolder/Dockerfile.env > $imageFolder/Dockerfile;
