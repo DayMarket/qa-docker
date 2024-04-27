@@ -1,15 +1,12 @@
 # Build and Push image
 if [ "$UPDATE_IMAGE" = true ]; then 
 
-    go version;
-    sudo rm -rf /usr/bin/go
-    whereis go;
+
     curl -L https://go.dev/dl/go1.22.2.linux-amd64.tar.gz --output go1.22.2.linux-amd64.tar.gz;
-    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.2.linux-amd64.tar.gz;
+    sudo rm -rf /usr/local/go && sudo rm -rf /usr/bin/go && sudo tar -C /usr/local -xzf go1.22.2.linux-amd64.tar.gz;
     PATH=$PATH:/usr/local/go/bin;
     PATH=$PATH:~/go/bin;
     go version;
-    echo "version installed";
     mkdir yandex;
     cd yandex;
     git clone https://github.com/aerokube/images;
