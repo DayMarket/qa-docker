@@ -3,7 +3,7 @@ echo "Start version checking for image: $ENV_DOCKER_IMAGE_NAME"
 echo " - Current Yandex Browser version is $YANDEX_BROWSER_VERSION"
 
 stable=false;
-curl -s https://repo.yandex.ru/yandex-browser/deb/dists/stable/main/binary-amd64/Packages > packages;
+curl -s https://repo.yandex.ru/yandex-browser/deb/dists/stable/main/binary-amd64/Packages | funzip > packages;
 
 while IFS= read -r line
 do
