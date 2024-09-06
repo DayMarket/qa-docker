@@ -23,7 +23,7 @@ jobs:
       run: |
         echo "Job started at $(date '+%d/%m/%Y %H:%M:%S')";
         sudo apt update
-        sudo apt install -y curl jq gettext
+        sudo apt install -y curl jq gettext unzip
         ENV_DOCKER_PUSH_EXIST=false
         for imageFolder in ./images/* ; 
           do
